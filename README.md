@@ -18,19 +18,19 @@ You should fill out this information before submitting your assignment.
 
 1. **Ready for Grading**. When your assignment is complete, you should change the line below to YES and then push to GitHub. This will signal to the TA that your assignment is ready to be graded. If the submission is completed after the due date, the timestamp of the commit will be used to determine how many late points will be applied.
 
-   `NO`
+   `YES`
 
 2. **Third Party Assets**. List the name and source of any third party assets that you added, such as models, images, sounds, or any other content used that was not created by you.
 
-   `TO BE COMPLETED`
+   `Polygon Adventure Assets`
 
 3. **Grading Instructions**. Please provide a brief description of your VR experience, identify the interaction techniques you implemented, and provide any usage instructions needed for the person grading your assignment.
 
-   `TO BE COMPLETED`
+   `Implemented marker and spindle manipulations with grabbable pumpkins on two stalls.`
 
 4. **Wizard Bonus Functionality**. If you completed the bonus challenge, then please provide a brief description of the additional functionality that you would like us to consider for extra credit.
 
-   `TO BE COMPLETED`
+   `N/A`
 
 ## Prerequisites
 

@@ -7,14 +7,27 @@ var previous_transform: Transform3D
 func _ready():
 	pass
 
+var controller_distance = 1
+var curr_obj_scale = Vector3(1, 1, 1)
+var curr_shape_scale = Vector3(1, 1, 1)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-
+	var spindle = $"../Spindle"
 	# Copy the grabber's relative movement since the last frame to to the grabbed object
 	if self.grabbed_object:
-		self.grabbed_object.transform = self.transform * self.previous_transform.inverse() * self.grabbed_object.transform
-	
+		var left = $"../XRUser/XROrigin3D/LeftController"
+		var right = $"../XRUser/XROrigin3D/RightController"
+		var curr_controller_distance = left.position.distance_to(right.position)
+		var object_scale = curr_controller_distance / controller_distance
+		var obj = self.grabbed_object.get_node("SM_Prop_Pumpkin_01")
+		var shape = self.grabbed_object.get_node("CollisionShape3D")
+		obj.scale = Vector3(object_scale * curr_obj_scale.x, object_scale * curr_obj_scale.y, object_scale * curr_obj_scale.z)
+		shape.scale = Vector3(object_scale * curr_shape_scale.x, object_scale * curr_shape_scale.y, object_scale * curr_shape_scale.z)
+		obj.rotation = spindle.rotation
+		shape.rotation = spindle.rotation
+		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
 	self.previous_transform = self.transform
+	
 
 func _on_button_pressed(button_name: String) -> void:
 	print("button pressed: " + button_name)
@@ -47,6 +60,13 @@ func _on_button_pressed(button_name: String) -> void:
 			grabbable_body.freeze = true
 			self.grabbed_object = grabbable_body
 			globals.active_grabbers.push_back(self)
+			var left = $"../XRUser/XROrigin3D/LeftController"
+			var right = $"../XRUser/XROrigin3D/RightController"
+			controller_distance = left.position.distance_to(right.position)
+			var obj = self.grabbed_object.get_node("SM_Prop_Pumpkin_01")
+			var shape = self.grabbed_object.get_node("CollisionShape3D")
+			curr_obj_scale = obj.scale
+			curr_shape_scale = shape.scale
 	
 func _on_button_released(button_name: String) -> void:
 	print("button released: " + button_name)
@@ -64,3 +84,11 @@ func _on_button_released(button_name: String) -> void:
 	# Remove this grabber from the array of active grabbers
 	var globals = get_node("/root/Globals")
 	globals.active_grabbers.remove_at(globals.active_grabbers.find(self))
+
+
+func _on_right_controller_button_pressed(_name):
+	pass # Replace with function body.
+
+
+func _on_left_controller_button_pressed(_name):
+	pass # Replace with function body.

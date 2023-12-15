@@ -19,7 +19,7 @@ func _process(_delta):
 		var right = $"../XRUser/XROrigin3D/RightController"
 		var curr_controller_distance = left.position.distance_to(right.position)
 		var object_scale = curr_controller_distance / controller_distance
-		var obj = self.grabbed_object.get_node("SM_Prop_Pumpkin_01")
+		var obj = self.grabbed_object.get_node("MeshInstance3D")
 		var shape = self.grabbed_object.get_node("CollisionShape3D")
 		obj.scale = Vector3(object_scale * curr_obj_scale.x, object_scale * curr_obj_scale.y, object_scale * curr_obj_scale.z)
 		shape.scale = Vector3(object_scale * curr_shape_scale.x, object_scale * curr_shape_scale.y, object_scale * curr_shape_scale.z)
@@ -63,7 +63,7 @@ func _on_button_pressed(button_name: String) -> void:
 			var left = $"../XRUser/XROrigin3D/LeftController"
 			var right = $"../XRUser/XROrigin3D/RightController"
 			controller_distance = left.position.distance_to(right.position)
-			var obj = self.grabbed_object.get_node("SM_Prop_Pumpkin_01")
+			var obj = self.grabbed_object.get_node("MeshInstance3D")
 			var shape = self.grabbed_object.get_node("CollisionShape3D")
 			curr_obj_scale = obj.scale
 			curr_shape_scale = shape.scale

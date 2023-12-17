@@ -21,11 +21,28 @@ func _process(_delta):
 		var object_scale = curr_controller_distance / controller_distance
 		var obj = self.grabbed_object.get_node("MeshInstance3D")
 		var shape = self.grabbed_object.get_node("CollisionShape3D")
-		obj.scale = Vector3(object_scale * curr_obj_scale.x, object_scale * curr_obj_scale.y, object_scale * curr_obj_scale.z)
-		shape.scale = Vector3(object_scale * curr_shape_scale.x, object_scale * curr_shape_scale.y, object_scale * curr_shape_scale.z)
-		obj.rotation = spindle.rotation
-		shape.rotation = spindle.rotation
-		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
+		if(self.grabbed_object.name != "Rotate_World"):
+			obj.scale = Vector3(object_scale * curr_obj_scale.x, object_scale * curr_obj_scale.y, object_scale * curr_obj_scale.z)
+			shape.scale = Vector3(object_scale * curr_shape_scale.x, object_scale * curr_shape_scale.y, object_scale * curr_shape_scale.z)
+		if(self.grabbed_object.name == "Rotate_World"):
+			print("entered check")
+			print(spindle.rotation.x)
+			print(spindle.rotation.y)
+			print(spindle.rotation.z)
+			if(deg_to_rad(-45)<spindle.rotation.x && spindle.rotation.x<deg_to_rad(45)):
+				obj.rotation.x = spindle.rotation.x
+				shape.rotation.x = spindle.rotation.x
+				
+			if(deg_to_rad(-45)<spindle.rotation.z && spindle.rotation.z<deg_to_rad(45)):
+				obj.rotation.z = spindle.rotation.z
+				shape.rotation.z = spindle.rotation.z
+			obj.rotation.y = spindle.rotation.y
+			shape.rotation.y = spindle.rotation.y			
+		else:
+			obj.rotation = spindle.rotation
+			shape.rotation = spindle.rotation
+		if(self.grabbed_object.name != "Rotate_World"):
+			self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
 	self.previous_transform = self.transform
 	
 
@@ -76,7 +93,8 @@ func _on_button_released(button_name: String) -> void:
 		return
 
 	# Release the grabbed object and unfreeze it
-	self.grabbed_object.freeze = false
+	if(self.grabbed_object.name != "Rotate_World"):
+		self.grabbed_object.freeze = false
 	self.grabbed_object.linear_velocity = Vector3(0, -0.1, 0)
 	self.grabbed_object.angular_velocity = Vector3.ZERO
 	self.grabbed_object = null

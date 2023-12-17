@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=43 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="PackedScene" uid="uid://dw2kfbg15qqeu" path="res://controllers/controller_l.fbx" id="3_y2kpf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/marker.gd" id="5_07hrc"]
 [ext_resource type="Script" path="res://scripts/spindle.gd" id="5_xo3i4"]
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="6_n4iu0"]
+[ext_resource type="Script" path="res://scenes/Rotate_World.gd" id="7_0a8dx"]
 [ext_resource type="Script" path="res://scripts/wim_object.gd" id="7_jereo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fjijl"]
@@ -47,15 +48,27 @@ albedo_color = Color(0.537255, 0.54902, 0.211765, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_ybpyl"]
 material = SubResource("StandardMaterial3D_3x0k5")
 
+[sub_resource type="BoxMesh" id="BoxMesh_geyd7"]
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w0n4n"]
+size = Vector3(0.5, 0.05, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_33xal"]
+size = Vector3(0.5, 0.5, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ikdm2"]
+size = Vector3(0.5, 0.5, 0.05)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_3wuk1"]
 size = Vector3(0.5, 0.1, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sdbci"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjnpu"]
 albedo_color = Color(0.47451, 0.341176, 0.27451, 1)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_b644v"]
-material = SubResource("StandardMaterial3D_sdbci")
-size = Vector2(0.5, 0.5)
+[sub_resource type="BoxMesh" id="BoxMesh_ax0kd"]
+material = SubResource("StandardMaterial3D_pjnpu")
+size = Vector3(0.5, 0.1, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g7571"]
 albedo_color = Color(0, 0.67451, 0.67451, 1)
@@ -66,6 +79,15 @@ size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_265fi"]
 size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nuvbk"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kjq41"]
+height = 0.2
+radius = 0.05
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o748l"]
 albedo_color = Color(0.615686, 0.34902, 1, 1)
@@ -78,8 +100,8 @@ height = 0.1
 [sub_resource type="SphereShape3D" id="SphereShape3D_qod8g"]
 radius = 0.05
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_a8whk"]
-size = Vector2(10, 10)
+[sub_resource type="BoxMesh" id="BoxMesh_dh5kc"]
+size = Vector3(10, 1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ym5vi"]
 albedo_color = Color(0.47451, 0.341176, 0.27451, 1)
@@ -152,10 +174,10 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 environment = SubResource("Environment_pi0m0")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(-0.89314, 0.433151, -0.121163, 0.0671406, 0.39476, 0.916328, 0.444739, 0.810274, -0.381658, 0, 2.93598, -2.60724)
+transform = Transform3D(-0.690915, 0.705403, -0.158249, 0.128469, 0.335214, 0.933342, 0.71143, 0.62453, -0.322227, 0, 3.41124, -2.60724)
 light_color = Color(1, 0, 0, 1)
 light_energy = 16.0
-spot_angle = 56.37
+spot_angle = 23.2213
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -195,22 +217,46 @@ shape = SubResource("BoxShape3D_68bkb")
 transform = Transform3D(1, 0, 0, 0, 0.219754, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_ybpyl")
 
+[node name="Rotate_World" type="RigidBody3D" parent="." groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.287424, 1.27629, 8.96644)
+freeze = true
+script = ExtResource("7_0a8dx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rotate_World"]
+mesh = SubResource("BoxMesh_geyd7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rotate_World"]
+shape = SubResource("BoxShape3D_w0n4n")
+
 [node name="WIM" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.951269, 8.77726)
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.436983, 1.32655, 9.02453)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="WIM"]
+[node name="Barrier" type="Node3D" parent="WIM"]
+visible = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WIM/StaticBody3D"]
+[node name="Barrier" type="StaticBody3D" parent="WIM/Barrier"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.275, 0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WIM/Barrier/Barrier"]
+shape = SubResource("BoxShape3D_33xal")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WIM/Barrier/Barrier"]
+mesh = SubResource("BoxMesh_ikdm2")
+
+[node name="Ground" type="StaticBody3D" parent="WIM"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WIM/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_3wuk1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WIM/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 0.0761765, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("PlaneMesh_b644v")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WIM/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("BoxMesh_ax0kd")
 
 [node name="Cube" type="RigidBody3D" parent="WIM" groups=["grabbable"]]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.052256, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0208517, 0.147373, 0)
 script = ExtResource("7_jereo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WIM/Cube"]
@@ -220,6 +266,16 @@ mesh = SubResource("BoxMesh_xsrpk")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WIM/Cube"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0171657, 0)
 shape = SubResource("BoxShape3D_265fi")
+
+[node name="Cyllinder" type="RigidBody3D" parent="WIM" groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.141165, 0.139867, 0.113055)
+script = ExtResource("7_jereo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WIM/Cyllinder"]
+mesh = SubResource("CylinderMesh_nuvbk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WIM/Cyllinder"]
+shape = SubResource("CylinderShape3D_kjq41")
 
 [node name="Sphere" type="RigidBody3D" parent="WIM" groups=["grabbable"]]
 unique_name_in_owner = true
@@ -233,11 +289,13 @@ mesh = SubResource("SphereMesh_ue25v")
 shape = SubResource("SphereShape3D_qod8g")
 
 [node name="Big World" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Ground" type="StaticBody3D" parent="Big World"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Big World/Ground"]
-mesh = SubResource("PlaneMesh_a8whk")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_dh5kc")
 surface_material_override/0 = SubResource("StandardMaterial3D_ym5vi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Big World/Ground"]
@@ -245,7 +303,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_trsr2")
 
 [node name="Big Cube" type="RigidBody3D" parent="Big World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.322472, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.357468, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Big World/Big Cube"]
 mesh = SubResource("BoxMesh_ewlb4")
@@ -261,6 +319,15 @@ mesh = SubResource("SphereMesh_ue25v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Big World/Big Sphere"]
 shape = SubResource("SphereShape3D_qod8g")
+
+[node name="Big Cyllinder" type="RigidBody3D" parent="Big World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.304645, 0.404923, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Big World/Big Cyllinder"]
+mesh = SubResource("CylinderMesh_nuvbk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Big World/Big Cyllinder"]
+shape = SubResource("CylinderShape3D_kjq41")
 
 [connection signal="button_pressed" from="XRUser/XROrigin3D/LeftController" to="Marker" method="_on_button_pressed"]
 [connection signal="button_released" from="XRUser/XROrigin3D/LeftController" to="Marker" method="_on_button_released"]
